@@ -51,7 +51,7 @@ int child_entrypoint(struct pipe_pair pair)
     read_pipe_pair(pair, msg, 1);
     int pid = getpid();
     fprintf(1, "%d: received ping\n", pid);
-    write_pipe_pair(pair, "\0", 1);
+    write_pipe_pair(pair, "\0", 1); 
     close_pair(pair);
     return 0;
 }

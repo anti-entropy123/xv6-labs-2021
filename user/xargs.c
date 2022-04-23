@@ -21,7 +21,6 @@ int read_from_std()
             break;
         }
         // printf("read, t='%s', len=%d\n", t, len);
-        // printf("read, t='%s', len=%d\n", t, len);
         strcpy(buf + buf_idx, t);
         buf_idx += len;
     }
@@ -106,13 +105,7 @@ int main(int argc, char *argv[])
     int line_cnt = split_lines();
     for (int i = 0; i < line_cnt; ++i)
     {
-        // printf("lines[%d]=%s\n", i, lines[i]);
-        // int word_cnt =
         split_words(lines[i]);
-        // for (int j = 0; j < word_cnt; ++j)
-        // {
-        //     // printf("sub_argv[%d]=%s\n", j, sub_argv[j]);
-        // }
         if (fork() == 0)
         {
             exec(argv[1], sub_argv);

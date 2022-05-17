@@ -109,4 +109,5 @@ struct proc {
   int alarm_itv;
   uint64 alarm_hander;
   int last_alarm;
+  struct trapframe saved_frame;
 };

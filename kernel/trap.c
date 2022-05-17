@@ -31,12 +31,7 @@ trapinithart(void)
 
 
 int need_alarm(struct proc *p) {
-  (p->last_alarm)++;
-  int ret = p->alarm_itv > 0 && p->last_alarm == p->alarm_itv;
-  if (ret) {
-    p->last_alarm = 0;
-  }
-  return ret;
+  return p->alarm_itv > 0 && ++(p->last_alarm) == p->alarm_itv;
 }
 
 //
@@ -89,6 +84,7 @@ usertrap(void)
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2) {
     if (need_alarm(p)){
+      memmove(&(p->saved_frame), p->trapframe, sizeof(struct trapframe));
       p->trapframe->epc = p->alarm_hander;
     }
     yield();
@@ -243,6 +239,11 @@ int sys_sigalarm() {
   p->last_alarm = 0;
   return 0;
 }
+
 int sys_sigreturn() {
+  printf("enter sys_sigreturn\n");
+  struct proc *p = myproc();
+  p -> last_alarm = 0;
+  memmove(p->trapframe, &(p->saved_frame), sizeof(struct trapframe));
   return 0;
 }
